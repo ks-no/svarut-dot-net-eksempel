@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForsendelseClientSample", "ForsendelseClientSample.csproj", "{6C63AE9B-7331-4A17-BCAB-0F1F8F4D4F91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05CF397B-43B9-4F10-96CC-1DD1606AA6D1}"
+	ProjectSection(SolutionItems) = preProject
+		ForsendelseClientSample.vsmdi = ForsendelseClientSample.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ForsendelseClientSample.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C63AE9B-7331-4A17-BCAB-0F1F8F4D4F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C63AE9B-7331-4A17-BCAB-0F1F8F4D4F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C63AE9B-7331-4A17-BCAB-0F1F8F4D4F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C63AE9B-7331-4A17-BCAB-0F1F8F4D4F91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

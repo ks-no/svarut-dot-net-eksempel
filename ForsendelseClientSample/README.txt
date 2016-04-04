@@ -1,0 +1,3 @@
+- Bruk WCF til import av WSDL
+- Sett authenticationScheme til Basic <httpsTransport ... authenticationScheme="Basic" ... />
+- bytt ut textMessageEncoding med mtomMessageEncoding : <mtomMessageEncoding maxReadPoolSize="211" maxWritePoolSize="2132" messageVersion="Soap12" writeEncoding="utf-8"/>
