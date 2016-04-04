@@ -1,7 +1,5 @@
 # Kodeeksempel - .NET
 
-Last ned komplett [kodeeksempel](../files/121363/dot-net-eksempel.zip)
-
 ### Generelt
 
 *   Bruk WCF til import av WSDL
