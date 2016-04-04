@@ -37,5 +37,14 @@ namespace ForsendelseClientSample.Utils
             AsymmetricCipherKeyPair keyPair = pemReader.ReadObject() as AsymmetricCipherKeyPair;
             return keyPair.Private;
         }
+
+        public static string HentForsendelser(string mottakerId, string password)
+        {
+            using (WebClient client = new WebClient())
+            {
+                client.Credentials = new NetworkCredential(mottakerId, password);
+                return client.DownloadString(new Uri(SvarUtUrl + "/tjenester/svarinn/mottaker/hentNyeForsendelser"));
+            }
+        }
     }
 }
