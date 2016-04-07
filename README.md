@@ -34,6 +34,21 @@
     </system.serviceModel>
 </configuration>
 ```
+### Sertifikater 
+Eksempelkoden forventer at private key skal finnes i  **currentuser=>personal**. I administrasjonsgrensesnittet må tilhørende .pem publickey sertifikat lastes opp. Videre må det genereres et .pfx sertifikat som lagres på lokal disk eller i lokal keystore. 
+
+#### Generering av sertifikater ved hjelp av openssl
+Generere pem private og public key
+```shell
+openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 999
+```
+
+
+Generere .pfx
+```shell
+openssl pkcs12 -inkey key.pem -in cert.pem -export -out cert.pfx
+```
+
 
 ### Kall av tjenesten fra en testmetode.
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using ForsendelseClientSample.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Org.BouncyCastle.X509;
 
 namespace ForsendelseClientSample
@@ -46,22 +48,33 @@ namespace ForsendelseClientSample
             forsendelsesService.ClientCredentials.UserName.Password = ForsendelsesServicePassword;
 
             string tittel = "Dette er en ukryptert eksempelforsendelse fra .Net  - " + Guid.NewGuid().ToString();
-            string forsendelsesId = forsendelsesService.sendForsendelse(ForsendelseUtil.CreateUkryptertForsendelseForOrgnr(tittel, MottakerOrg, ForsendelseClientSample.Properties.Resources.small_pdf));
+            string forsendelsesId = forsendelsesService.sendForsendelse(ForsendelseUtil.CreateUkryptertForsendelseForOrgnr(tittel, MottakerOrg, Properties.Resources.small_pdf));
+            Debug.WriteLine(string.Format("Sendte forsendelse med id {0}", forsendelsesId));
+            dynamic forsendelser = JsonConvert.DeserializeObject(SvarInnUtil.HentForsendelser(MottakerId, Password));
 
-            // Forutsetter at mottaker er registrert med din public key og orgnr registrert for mottaker
-            byte[] kryptertData = SvarInnUtil.LastNedForsendelse(MottakerId, Password, forsendelsesId);
-            Assert.IsNotNull(kryptertData);
-            Assert.IsFalse(kryptertData.Length == 0);
+            Debug.WriteLine("Mottar uleste forsendelser:");
+            Debug.Indent();
+            foreach (dynamic forsendelse in forsendelser)
+            {
+                string id = forsendelse.id;
+                Debug.WriteLine(string.Format("Id: {0} ", id));
 
-            // Dekrypter og test
-            byte[] dekryptertData = CMSDataKryptering.DekrypterData(kryptertData, SvarInnUtil.GetPrivateKey());
-            Assert.IsNotNull(dekryptertData);
-            Assert.IsFalse(dekryptertData.Length == 0);
-   
-            // Husk å kvittere som mottat i SvarUt etter at vi har bekreftet at nedlasting var vellykket
-            SvarInnUtil.KvitterMottak(MottakerId, Password, forsendelsesId);
-            ForsendelseClientSample.ForsendelsesService.forsendelseStatus status = forsendelsesService.retrieveForsendelseStatus(forsendelsesId);
-            Assert.AreEqual(status, ForsendelseClientSample.ForsendelsesService.forsendelseStatus.LEST);
+                byte[] kryptertData = SvarInnUtil.LastNedForsendelse(MottakerId, Password, id);
+                Assert.IsNotNull(kryptertData);
+                Assert.IsFalse(kryptertData.Length == 0);
+
+                // Dekrypter og test
+                byte[] dekryptertData = CMSDataKryptering.DekrypterData(kryptertData);
+                Assert.IsNotNull(dekryptertData);
+                Assert.IsFalse(dekryptertData.Length == 0);
+
+                // Husk å kvittere som mottat i SvarUt etter at vi har bekreftet at nedlasting var vellykket
+                SvarInnUtil.KvitterMottak(MottakerId, Password, id);
+                ForsendelsesService.forsendelseStatus status = forsendelsesService.retrieveForsendelseStatus(id);
+                Assert.AreEqual(status, ForsendelsesService.forsendelseStatus.LEST);
+            }
+            Debug.Unindent();
+
         }
     }
 }

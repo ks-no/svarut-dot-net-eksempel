@@ -20,6 +20,7 @@ using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.X509;
 using X509Certificate = Org.BouncyCastle.X509.X509Certificate;
 
 
@@ -55,16 +56,21 @@ namespace ForsendelseClientSample
 
         }
 
-        public static byte[] DekrypterData(byte[] kryptertData, AsymmetricKeyParameter privateKey)
+        public static byte[] DekrypterData(byte[] kryptertData)
         {
-            // Dette krever at man har lagret private key i lokal keystore
+            /* Dette krever at man har lagret private key i lokal keystore (currentuser=>Personal)
+                     openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 9999 -config C:\Slettmeg\openssl.cfg
+                     openssl pkcs12 -inkey key.pem -in cert.pem -export -out cert.pfx
+               Eventuelt kan man bruke:
+               envelopedCms.Decrypt(envelopedCms.RecipientInfos[0],new X509Certificate2Collection(new X509Certificate2(@"..\..\..\cert.pfx","1234");));
+
+            */
+
             var envelopedCms = new EnvelopedCms();
             envelopedCms.Decode(kryptertData);
             envelopedCms.Decrypt(envelopedCms.RecipientInfos[0]);
             return envelopedCms.ContentInfo.Content;
         }
-
-
     }
 
 }
