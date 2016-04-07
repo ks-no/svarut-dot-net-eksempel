@@ -15,7 +15,6 @@ namespace ForsendelseClientSample.Utils
         {
             using (WebClient client = GetClient(mottakerId, password))
             {
-                client.Credentials = new NetworkCredential(mottakerId, password);
                 return client.DownloadData(new Uri(SvarUtUrl + "/tjenester/svarinn/forsendelse/" + forsendelsesId));
             }
         }
@@ -24,7 +23,6 @@ namespace ForsendelseClientSample.Utils
         {
             using (WebClient client = GetClient(mottakerId, password))
             {
-                client.Credentials = new NetworkCredential(mottakerId, password);
                 client.UploadString(new Uri(SvarUtUrl + "/tjenester/svarinn/kvitterMottak/forsendelse/" + forsendelsesId), "");
             }
         }
@@ -43,7 +41,6 @@ namespace ForsendelseClientSample.Utils
         {
             using (WebClient client = GetClient(mottakerId, password))
             {
-                client.Credentials = new NetworkCredential(mottakerId, password);
                 return client.DownloadString(new Uri(SvarUtUrl + "/tjenester/svarinn/mottaker/hentNyeForsendelser"));
             }
         }
